@@ -9,6 +9,7 @@
 namespace sibds\components;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
 use \yii\db\Expression;
 use \yii\behaviors\BlameableBehavior;
 
@@ -23,18 +24,19 @@ class ActiveRecord extends \yii\db\ActiveRecord
          * */
         return [
             'timestamp' => [
-                'class' => DateTimeStampBehavior::className(),
+                'class' => TimestampBehavior::className(),
                 'attributes' => [
                     ActiveRecord::EVENT_BEFORE_INSERT => ['create_at', 'update_at'],
                     ActiveRecord::EVENT_BEFORE_UPDATE => ['update_at'],
                 ],
-                'value' => new Expression('NOW()'),
+
             ],
+            /*
             'blameable' => [
                 'class' => BlameableBehavior::className(),
                 'createdByAttribute' => 'create_by',
                 'updatedByAttribute' => 'update_by',
-            ],
+            ],*/
         ];
     }
 
