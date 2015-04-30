@@ -94,4 +94,3 @@ sftp-config.json
 ### CodeCeption ###
 tests/_log/*
 tests/_runtime/*
-tests/unit/UnitTester.php
