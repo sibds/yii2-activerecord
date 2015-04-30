@@ -10,29 +10,52 @@ class BehaviorTest extends \yii\codeception\TestCase
 {
     public $appConfig = '@tests/unit/_config.php';
 
-    private function saveAndReload($class, $id, $post)
+    public static function setUpBeforeClass()
     {
-        $class = 'data\\'.$class;
-        $model = $class::findOne($id);
-
-        $this->assertNotEmpty($model, 'Load model');
-        $this->assertTrue($model->load($post), 'Load POST data');
-        $this->assertTrue($model->save(), 'Save model');
-
-        $model = $class::findOne($id);
-        $this->assertNotEmpty($model, 'Reload model');
-
-        return $model;
+        if (!extension_loaded('pdo') || !extension_loaded('pdo_sqlite')) {
+            static::markTestSkipped('PDO and SQLite extensions are required.');
+        }
     }
-    /*
+
+    private function loginUser($id){
+        return Yii::$app->user->login(data\User::findIdentity($id));
+    }
+
+    public function setUp()
+    {
+        $this->mockApplication(require(Yii::getAlias($this->appConfig)));
+
+        if(Yii::$app->user->isGuest)
+            $this->loginUser(100);
+    }
+
+    public function tearDown()
+    {
+        //data\Post::deleteAll();
+        parent::tearDown();
+    }
+
     public function testCreatePostByAdmin()
     {
-        $post = new Post();
+        $post = new data\Post();
 
         //add test data
         $post->content = "test content";
-        $post->save;
+        $post->save();
 
+        $this->assertTrue($post->create_by==100&&$post->update_by==100);
     }
-    */
+
+    /**
+     *  @depends testCreatePostByAdmin
+     */
+    public function testChangePostByDemo(){
+        $post = data\Post::find()->one();
+
+        $this->loginUser(101);
+        $post->content = "test content change";
+        $post->save();
+
+        $this->assertTrue($post->create_by==100&&$post->update_by==101);
+    }
 } 

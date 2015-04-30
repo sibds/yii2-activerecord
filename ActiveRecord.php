@@ -22,27 +22,35 @@ class ActiveRecord extends \yii\db\ActiveRecord
          * https://yii2framework.wordpress.com/2014/11/15/yii-2-behaviors-blameable-and-timestamp/comment-page-1/
          * https://toster.ru/q/82962
          * */
-        return [
-            'timestamp' => [
+        $behaviors = [];
+        //Check timestamp
+        if(array_key_exists('create_at', $this->attributes)&&array_key_exists('update_at', $this->attributes))
+            $behaviors['timestamp']=[
                 'class' => TimestampBehavior::className(),
                 'attributes' => [
                     ActiveRecord::EVENT_BEFORE_INSERT => ['create_at', 'update_at'],
                     ActiveRecord::EVENT_BEFORE_UPDATE => ['update_at'],
                 ],
 
-            ],
-            /*
-            'blameable' => [
+            ];
+
+        //Check blameable
+        if(array_key_exists('create_by', $this->attributes)&&array_key_exists('update_by', $this->attributes))
+            $behaviors['blameable']=[
                 'class' => BlameableBehavior::className(),
                 'createdByAttribute' => 'create_by',
                 'updatedByAttribute' => 'update_by',
-            ],*/
-        ];
+            ];
+
+        return $behaviors;
     }
 
     public function getCreateUser()
     {
-        return $this->hasOne(User::className(), ['id' => 'create_by']);
+        if(array_key_exists('create_by', $this->attributes)&&array_key_exists('update_by', $this->attributes))
+            return $this->hasOne(User::className(), ['id' => 'create_by']);
+
+        return null;
     }
 
     /**
@@ -51,12 +59,18 @@ class ActiveRecord extends \yii\db\ActiveRecord
      */
     public function getCreateUserName()
     {
-        return $this->createUser ? $this->createUser->username : '- no user -';
+        if(array_key_exists('create_by', $this->attributes)&&array_key_exists('update_by', $this->attributes))
+            return $this->createUser ? $this->createUser->username : '- no user -';
+
+        return null;
     }
 
     public function getUpdateUser()
     {
-        return $this->hasOne(User::className(), ['id' => 'update_by']);
+        if(array_key_exists('create_by', $this->attributes)&&array_key_exists('update_by', $this->attributes))
+            return $this->hasOne(User::className(), ['id' => 'update_by']);
+
+        return null;
     }
 
     /**
@@ -65,6 +79,9 @@ class ActiveRecord extends \yii\db\ActiveRecord
      */
     public function getUpdateUserName()
     {
-        return $this->createUser ? $this->updateUser->username : '- no user -';
+        if(array_key_exists('create_by', $this->attributes)&&array_key_exists('update_by', $this->attributes))
+            return $this->createUser ? $this->updateUser->username : '- no user -';
+
+        return null;
     }
 }

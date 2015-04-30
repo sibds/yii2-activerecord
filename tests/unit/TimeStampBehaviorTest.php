@@ -6,7 +6,7 @@
  * Time: 2:08
  */
 
-class DateTimeStampBehaviorTest extends \yii\codeception\TestCase
+class TimeStampBehaviorTest extends \yii\codeception\TestCase
 {
     public $appConfig = '@tests/unit/_config.php';
 
@@ -40,15 +40,23 @@ class DateTimeStampBehaviorTest extends \yii\codeception\TestCase
     }
     public function tearDown()
     {
+        Yii::$app->getDb()->createCommand()->delete('test_auto_timestamp')->execute();
         Yii::$app->getDb()->close();
         parent::tearDown();
     }
     // Tests :
+    public function testFields(){
+        $model = new ActiveRecordTimestamp();
+        $this->assertTrue(array_key_exists('create_at', $model->attributes));
+        $this->assertTrue(array_key_exists('update_at', $model->attributes));
+    }
     public function testNewRecord()
     {
         $currentTime = time();
+
         $model = new ActiveRecordTimestamp();
         $model->save(false);
+
         $this->assertTrue($model->create_at >= $currentTime);
         $this->assertTrue($model->update_at >= $currentTime);
     }
@@ -60,10 +68,14 @@ class DateTimeStampBehaviorTest extends \yii\codeception\TestCase
         $currentTime = time();
         $model = new ActiveRecordTimestamp();
         $model->save(false);
+
         $enforcedTime = $currentTime - 100;
+
         $model->create_at = $enforcedTime;
         $model->update_at = $enforcedTime;
+
         $model->save(false);
+
         $this->assertEquals($enforcedTime, $model->create_at, 'Create time has been set on update!');
         $this->assertTrue($model->update_at >= $currentTime, 'Update time has NOT been set on update!');
     }
