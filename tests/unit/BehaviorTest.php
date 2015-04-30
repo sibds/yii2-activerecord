@@ -43,7 +43,7 @@ class BehaviorTest extends \yii\codeception\TestCase
         $post->content = "test content";
         $post->save();
 
-        $this->assertTrue($post->create_by==100&&$post->update_by==100);
+        $this->assertTrue($post->created_by==100&&$post->updated_by==100);
     }
 
     /**
@@ -56,6 +56,6 @@ class BehaviorTest extends \yii\codeception\TestCase
         $post->content = "test content change";
         $post->save();
 
-        $this->assertTrue($post->create_by==100&&$post->update_by==101);
+        $this->assertTrue($post->created_by==100&&$post->updated_by==101);
     }
 } 

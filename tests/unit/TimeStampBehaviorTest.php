@@ -90,6 +90,8 @@ class TimeStampBehaviorTest extends \yii\codeception\TestCase
  */
 class ActiveRecordTimestamp extends sibds\components\ActiveRecord
 {
+    public $timestampFields = ['create_at', 'update_at'];
+
      public static function tableName()
     {
         return 'test_auto_timestamp';

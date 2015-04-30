@@ -9,10 +9,10 @@ use Yii;
  *
  * @property integer $id
  * @property string $content
- * @property integer $create_at
- * @property integer $update_at
- * @property integer $create_by
- * @property integer $update_by
+ * @property integer $created_at
+ * @property integer $updated_at
+ * @property integer $created_by
+ * @property integer $updated_by
  */
 class Post extends \sibds\components\ActiveRecord
 {
@@ -31,7 +31,7 @@ class Post extends \sibds\components\ActiveRecord
     {
         return [
             [['content'], 'string'],
-            [['create_at', 'update_at', 'create_by', 'update_by'], 'integer']
+            [['created_at', 'updated_at', 'created_by', 'updated_by'], 'integer']
         ];
     }
 
@@ -43,10 +43,10 @@ class Post extends \sibds\components\ActiveRecord
         return [
             'id' => 'ID',
             'content' => 'Content',
-            'create_at' => 'Create At',
-            'update_at' => 'Update At',
-            'create_by' => 'Create By',
-            'update_by' => 'Update By',
+            'created_at' => 'Created At',
+            'updated_at' => 'Updated At',
+            'created_by' => 'Created By',
+            'updated_by' => 'Updated By',
         ];
     }
 }

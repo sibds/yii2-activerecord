@@ -3,10 +3,10 @@ BEGIN TRANSACTION;
 CREATE TABLE "post" (
     "id" INTEGER PRIMARY KEY AUTOINCREMENT,
     "content" TEXT,
-    "create_at" INTEGER,
-    "update_at" INTEGER,
-    "create_by" INTEGER,
-    "update_by" INTEGER
+    "created_at" INTEGER,
+    "updated_at" INTEGER,
+    "created_by" INTEGER,
+    "updated_by" INTEGER
 );
 
 DELETE FROM sqlite_sequence;

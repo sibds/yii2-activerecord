@@ -16,6 +16,9 @@ use \yii\behaviors\BlameableBehavior;
 
 class ActiveRecord extends \yii\db\ActiveRecord
 {
+    public $timestampFields = ['created_at', 'updated_at'];
+    public $blameableFields = ['created_by', 'updated_by'];
+
     public function behaviors()
     {
         /*Sources:
@@ -24,22 +27,22 @@ class ActiveRecord extends \yii\db\ActiveRecord
          * */
         $behaviors = [];
         //Check timestamp
-        if(array_key_exists('create_at', $this->attributes)&&array_key_exists('update_at', $this->attributes))
+        if(array_key_exists($this->timestampFields[0], $this->attributes)&&array_key_exists($this->timestampFields[1], $this->attributes))
             $behaviors['timestamp']=[
                 'class' => TimestampBehavior::className(),
                 'attributes' => [
-                    ActiveRecord::EVENT_BEFORE_INSERT => ['create_at', 'update_at'],
-                    ActiveRecord::EVENT_BEFORE_UPDATE => ['update_at'],
+                    ActiveRecord::EVENT_BEFORE_INSERT => $this->timestampFields,
+                    ActiveRecord::EVENT_BEFORE_UPDATE => $this->timestampFields[1],
                 ],
 
             ];
 
         //Check blameable
-        if(array_key_exists('create_by', $this->attributes)&&array_key_exists('update_by', $this->attributes))
+        if(array_key_exists($this->blameableFields[0], $this->attributes)&&array_key_exists($this->blameableFields[1], $this->attributes))
             $behaviors['blameable']=[
                 'class' => BlameableBehavior::className(),
-                'createdByAttribute' => 'create_by',
-                'updatedByAttribute' => 'update_by',
+                'createdByAttribute' => $this->blameableFields[0],
+                'updatedByAttribute' => $this->blameableFields[1],
             ];
 
         return $behaviors;
@@ -47,8 +50,8 @@ class ActiveRecord extends \yii\db\ActiveRecord
 
     public function getCreateUser()
     {
-        if(array_key_exists('create_by', $this->attributes)&&array_key_exists('update_by', $this->attributes))
-            return $this->hasOne(User::className(), ['id' => 'create_by']);
+        if(array_key_exists($this->blameableFields[0], $this->attributes)&&array_key_exists($this->blameableFields[1], $this->attributes))
+            return $this->hasOne(User::className(), ['id' => $this->blameableFields[0]]);
 
         return null;
     }
@@ -59,7 +62,7 @@ class ActiveRecord extends \yii\db\ActiveRecord
      */
     public function getCreateUserName()
     {
-        if(array_key_exists('create_by', $this->attributes)&&array_key_exists('update_by', $this->attributes))
+        if(array_key_exists($this->blameableFields[0], $this->attributes)&&array_key_exists($this->blameableFields[1], $this->attributes))
             return $this->createUser ? $this->createUser->username : '- no user -';
 
         return null;
@@ -67,8 +70,8 @@ class ActiveRecord extends \yii\db\ActiveRecord
 
     public function getUpdateUser()
     {
-        if(array_key_exists('create_by', $this->attributes)&&array_key_exists('update_by', $this->attributes))
-            return $this->hasOne(User::className(), ['id' => 'update_by']);
+        if(array_key_exists($this->blameableFields[0], $this->attributes)&&array_key_exists($this->blameableFields[1], $this->attributes))
+            return $this->hasOne(User::className(), ['id' => $this->blameableFields[1]]);
 
         return null;
     }
@@ -79,7 +82,7 @@ class ActiveRecord extends \yii\db\ActiveRecord
      */
     public function getUpdateUserName()
     {
-        if(array_key_exists('create_by', $this->attributes)&&array_key_exists('update_by', $this->attributes))
+        if(array_key_exists($this->blameableFields[0], $this->attributes)&&array_key_exists($this->blameableFields[1], $this->attributes))
             return $this->createUser ? $this->updateUser->username : '- no user -';
 
         return null;
