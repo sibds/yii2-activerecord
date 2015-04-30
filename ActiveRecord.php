@@ -16,6 +16,7 @@ use \yii\behaviors\BlameableBehavior;
 
 class ActiveRecord extends \yii\db\ActiveRecord
 {
+    // Dynamical fields for behaviors
     public $timestampFields = ['created_at', 'updated_at'];
     public $blameableFields = ['created_by', 'updated_by'];
 
@@ -25,6 +26,7 @@ class ActiveRecord extends \yii\db\ActiveRecord
          * https://yii2framework.wordpress.com/2014/11/15/yii-2-behaviors-blameable-and-timestamp/comment-page-1/
          * https://toster.ru/q/82962
          * */
+        // If table not have fields, then behavior not use
         $behaviors = [];
         //Check timestamp
         if(array_key_exists($this->timestampFields[0], $this->attributes)&&array_key_exists($this->timestampFields[1], $this->attributes))
@@ -48,6 +50,10 @@ class ActiveRecord extends \yii\db\ActiveRecord
         return $behaviors;
     }
 
+    /**
+     * @getCreateUser
+     * @return null|\yii\db\ActiveQuery
+     */
     public function getCreateUser()
     {
         if(array_key_exists($this->blameableFields[0], $this->attributes)&&array_key_exists($this->blameableFields[1], $this->attributes))
@@ -58,7 +64,7 @@ class ActiveRecord extends \yii\db\ActiveRecord
 
     /**
      * @getCreateUserName
-     *
+     * @return null|\yii\db\ActiveQuery
      */
     public function getCreateUserName()
     {
@@ -68,6 +74,10 @@ class ActiveRecord extends \yii\db\ActiveRecord
         return null;
     }
 
+    /**
+     * @getUpdateUser
+     * @return null|\yii\db\ActiveQuery
+     */
     public function getUpdateUser()
     {
         if(array_key_exists($this->blameableFields[0], $this->attributes)&&array_key_exists($this->blameableFields[1], $this->attributes))
@@ -78,7 +88,7 @@ class ActiveRecord extends \yii\db\ActiveRecord
 
     /**
      * @getUpdateUserName
-     *
+     * @return null|\yii\db\ActiveQuery
      */
     public function getUpdateUserName()
     {
