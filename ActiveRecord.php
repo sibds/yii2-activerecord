@@ -89,6 +89,14 @@ class ActiveRecord extends \yii\db\ActiveRecord
             ];
         }
 
+        //Check trash
+        if($this->hasAttribute($this->removeByAttribute)){
+            $behaviors['trash']=[
+                'class'=>\sibds\behaviors\TrashBehavior::className(),
+                'trashAttribute'=>$this->removeByAttribute,
+            ];
+        }
+
         return $behaviors;
     }
 
@@ -138,6 +146,16 @@ class ActiveRecord extends \yii\db\ActiveRecord
             return $this->createUser ? $this->updateUser->username : '- no user -';
 
         return null;
+    }
+
+    public function beforeSave($insert){
+        if($insert){
+            if($this->hasAttribute('status'))
+                if(empty($this->status)||is_null($this->status))
+                    $this->status = self::STATUS_DEFAULT;
+        }
+
+        return parent::beforeSave($insert);
     }
 
     public function beforeSave($insert){
