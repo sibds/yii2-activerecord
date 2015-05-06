@@ -27,7 +27,6 @@ class ActiveRecord extends \yii\db\ActiveRecord
     public static $BEFORE_QUERY = ['removed'=>0, 'status'=>self::STATUS_DEFAULT];
 
 
-
     // Dynamical fields for behaviors
     /**
      * @var string the attribute that will receive timestamp value
@@ -64,7 +63,7 @@ class ActiveRecord extends \yii\db\ActiveRecord
         // If table not have fields, then behavior not use
         $behaviors = [];
         //Check timestamp
-        if(array_key_exists($this->createdAtAttribute, $this->attributes)&&array_key_exists($this->updatedAtAttribute, $this->attributes))
+        if($this->hasAttribute($this->createdAtAttribute)&&$this->hasAttribute($this->updatedAtAttribute))
             $behaviors['timestamp']=[
                 'class' => TimestampBehavior::className(),
                 'attributes' => [
@@ -75,7 +74,7 @@ class ActiveRecord extends \yii\db\ActiveRecord
             ];
 
         //Check blameable
-        if(array_key_exists($this->createdByAttribute, $this->attributes)&&array_key_exists($this->updatedByAttribute, $this->attributes))
+        if($this->hasAttribute($this->createdByAttribute)&&$this->hasAttribute($this->updatedByAttribute))
             $behaviors['blameable']=[
                 'class' => BlameableBehavior::className(),
                 'createdByAttribute' => $this->createdByAttribute,
@@ -83,7 +82,7 @@ class ActiveRecord extends \yii\db\ActiveRecord
             ];
 
         //Check trash
-        if(array_key_exists($this->removeByAttribute, $this->attributes)){
+        if($this->hasAttribute($this->removeByAttribute)){
             $behaviors['trash']=[
                 'class'=>\sibds\behaviors\TrashBehavior::className(),
                 'trashAttribute'=>$this->removeByAttribute,
@@ -99,7 +98,7 @@ class ActiveRecord extends \yii\db\ActiveRecord
      */
     public function getCreateUser()
     {
-        if(array_key_exists($this->createdByAttribute, $this->attributes)&&array_key_exists($this->updatedByAttribute, $this->attributes))
+        if($this->hasAttribute($this->createdByAttribute)&&$this->hasAttribute($this->updatedByAttribute))
             return $this->hasOne(User::className(), ['id' => $this->createdByAttribute]);
 
         return null;
@@ -111,7 +110,7 @@ class ActiveRecord extends \yii\db\ActiveRecord
      */
     public function getCreateUserName()
     {
-        if(array_key_exists($this->createdByAttribute, $this->attributes)&&array_key_exists($this->updatedByAttribute, $this->attributes))
+        if($this->hasAttribute($this->createdByAttribute)&&$this->hasAttribute($this->updatedByAttribute))
             return $this->createUser ? $this->createUser->username : '- no user -';
 
         return null;
@@ -123,7 +122,7 @@ class ActiveRecord extends \yii\db\ActiveRecord
      */
     public function getUpdateUser()
     {
-        if(array_key_exists($this->createdByAttribute, $this->attributes)&&array_key_exists($this->updatedByAttribute, $this->attributes))
+        if($this->hasAttribute($this->createdByAttribute)&&$this->hasAttribute($this->updatedByAttribute))
             return $this->hasOne(User::className(), ['id' => $this->updatedByAttribute]);
 
         return null;
@@ -135,7 +134,7 @@ class ActiveRecord extends \yii\db\ActiveRecord
      */
     public function getUpdateUserName()
     {
-        if(array_key_exists($this->createdByAttribute, $this->attributes)&&array_key_exists($this->updatedByAttribute, $this->attributes))
+        if($this->hasAttribute($this->createdByAttribute)&&$this->hasAttribute($this->updatedByAttribute))
             return $this->createUser ? $this->updateUser->username : '- no user -';
 
         return null;
@@ -143,12 +142,9 @@ class ActiveRecord extends \yii\db\ActiveRecord
 
     public function beforeSave($insert){
         if($insert){
-            if(array_key_exists('status', $this->attributes))
+            if($this->hasAttribute('status'))
                 if(empty($this->status)||is_null($this->status))
                     $this->status = self::STATUS_DEFAULT;
-            if(array_key_exists($this->removeByAttribute, $this->attributes))
-                if(empty($this->{$this->removeByAttribute})||is_null($this->{$this->removeByAttribute}))
-                    $this->{$this->removeByAttribute} = $this->restoredFlag;
         }
 
         return parent::beforeSave($insert);

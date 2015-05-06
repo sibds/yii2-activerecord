@@ -6,6 +6,8 @@
  * Time: 1:25
  */
 
+use Codeception\Util\Debug;
+
 class BehaviorTest extends \yii\codeception\TestCase
 {
     public $appConfig = '@tests/unit/_config.php';
