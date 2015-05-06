@@ -6,7 +6,9 @@ CREATE TABLE "post" (
     "created_at" INTEGER,
     "updated_at" INTEGER,
     "created_by" INTEGER,
-    "updated_by" INTEGER
+    "updated_by" INTEGER,
+    "status" INTEGER,
+    "removed" INTEGER
 );
 
 DELETE FROM sqlite_sequence;

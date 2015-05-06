@@ -16,6 +16,8 @@ use Yii;
  */
 class Post extends \sibds\components\ActiveRecord
 {
+    //public static $BEFORE_QUERY;
+
     /**
      * @inheritdoc
      */
@@ -31,7 +33,7 @@ class Post extends \sibds\components\ActiveRecord
     {
         return [
             [['content'], 'string'],
-            [['created_at', 'updated_at', 'created_by', 'updated_by'], 'integer']
+            [['created_at', 'updated_at', 'created_by', 'updated_by', 'status', 'removed'], 'integer']
         ];
     }
 
@@ -47,6 +49,8 @@ class Post extends \sibds\components\ActiveRecord
             'updated_at' => 'Updated At',
             'created_by' => 'Created By',
             'updated_by' => 'Updated By',
+            'status' => 'Status',
+            'removed' => 'Deleted',
         ];
     }
 }

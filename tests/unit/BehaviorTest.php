@@ -58,4 +58,19 @@ class BehaviorTest extends \yii\codeception\TestCase
 
         $this->assertTrue($post->created_by==100&&$post->updated_by==101);
     }
+
+    /**
+     *  @depends testChangePostByDemo
+     */
+    public function testDelete(){
+        $countBefore = data\Post::find()->count();
+        $post = data\Post::find()->one();
+
+        $this->loginUser(100);
+        $post->delete();
+
+        $countAfter = data\Post::find()->count();
+
+        $this->assertTrue($countBefore==$countAfter+1);
+    }
 } 

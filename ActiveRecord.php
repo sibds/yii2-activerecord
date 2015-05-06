@@ -16,10 +16,17 @@ use \yii\behaviors\BlameableBehavior;
 
 class ActiveRecord extends \yii\db\ActiveRecord
 {
+    //use \sibds\traits\base\BeforeQueryTrait;
+    use BeforeQueryTrait;
+
     //Status state
     const STATUS_DEFAULT = 0;
     const STATUS_LOCK = -1;
     const STATUS_REMOVE = 1;
+
+    public static $BEFORE_QUERY = ['removed'=>0, 'status'=>self::STATUS_DEFAULT];
+
+
 
     // Dynamical fields for behaviors
     /**
@@ -43,6 +50,9 @@ class ActiveRecord extends \yii\db\ActiveRecord
      * Set this property to false if you do not want to record the updater ID.
      */
     public $updatedByAttribute = 'updated_by';
+
+    public $removeByAttribute = 'removed';
+
 
 
     public function behaviors()
@@ -71,6 +81,14 @@ class ActiveRecord extends \yii\db\ActiveRecord
                 'createdByAttribute' => $this->createdByAttribute,
                 'updatedByAttribute' => $this->updatedByAttribute,
             ];
+
+        //Check trash
+        if(array_key_exists($this->removeByAttribute, $this->attributes)){
+            $behaviors['trash']=[
+                'class'=>\sibds\behaviors\TrashBehavior::className(),
+                'trashAttribute'=>$this->removeByAttribute,
+            ];
+        }
 
         return $behaviors;
     }
@@ -121,5 +139,18 @@ class ActiveRecord extends \yii\db\ActiveRecord
             return $this->createUser ? $this->updateUser->username : '- no user -';
 
         return null;
+    }
+
+    public function beforeSave($insert){
+        if($insert){
+            if(array_key_exists('status', $this->attributes))
+                if(empty($this->status)||is_null($this->status))
+                    $this->status = self::STATUS_DEFAULT;
+            if(array_key_exists($this->removeByAttribute, $this->attributes))
+                if(empty($this->{$this->removeByAttribute})||is_null($this->{$this->removeByAttribute}))
+                    $this->{$this->removeByAttribute} = $this->restoredFlag;
+        }
+
+        return parent::beforeSave($insert);
     }
 }
