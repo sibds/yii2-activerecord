@@ -9,9 +9,9 @@
 namespace sibds\components;
 
 use Yii;
+use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
-use \yii\db\Expression;
-use \yii\behaviors\BlameableBehavior;
+use sibds\behaviors\TrashBehavior;
 
 
 class ActiveRecord extends \yii\db\ActiveRecord
@@ -24,7 +24,7 @@ class ActiveRecord extends \yii\db\ActiveRecord
     const STATUS_LOCK = -1;
     const STATUS_REMOVE = 1;
 
-    public static $BEFORE_QUERY = ['removed'=>0, 'status'=>self::STATUS_DEFAULT];
+    public static $BEFORE_QUERY = ['removed' => 0, 'status' => self::STATUS_DEFAULT];
 
 
     // Dynamical fields for behaviors
@@ -53,7 +53,6 @@ class ActiveRecord extends \yii\db\ActiveRecord
     public $removeByAttribute = 'removed';
 
 
-
     public function behaviors()
     {
         /*Sources:
@@ -63,8 +62,8 @@ class ActiveRecord extends \yii\db\ActiveRecord
         // If table not have fields, then behavior not use
         $behaviors = [];
         //Check timestamp
-        if($this->hasAttribute($this->createdAtAttribute)&&$this->hasAttribute($this->updatedAtAttribute))
-            $behaviors['timestamp']=[
+        if ($this->hasAttribute($this->createdAtAttribute) && $this->hasAttribute($this->updatedAtAttribute))
+            $behaviors['timestamp'] = [
                 'class' => TimestampBehavior::className(),
                 'attributes' => [
                     ActiveRecord::EVENT_BEFORE_INSERT => [$this->createdAtAttribute, $this->updatedAtAttribute],
@@ -74,26 +73,26 @@ class ActiveRecord extends \yii\db\ActiveRecord
             ];
 
         //Check blameable
-        if($this->hasAttribute($this->createdByAttribute)&&$this->hasAttribute($this->updatedByAttribute))
-            $behaviors['blameable']=[
+        if ($this->hasAttribute($this->createdByAttribute) && $this->hasAttribute($this->updatedByAttribute))
+            $behaviors['blameable'] = [
                 'class' => BlameableBehavior::className(),
                 'createdByAttribute' => $this->createdByAttribute,
                 'updatedByAttribute' => $this->updatedByAttribute,
             ];
 
         //Check trash
-        if($this->hasAttribute($this->removeByAttribute)){
-            $behaviors['trash']=[
-                'class'=>\sibds\behaviors\TrashBehavior::className(),
-                'trashAttribute'=>$this->removeByAttribute,
+        if ($this->hasAttribute($this->removeByAttribute)) {
+            $behaviors['trash'] = [
+                'class' => \sibds\behaviors\TrashBehavior::className(),
+                'trashAttribute' => $this->removeByAttribute,
             ];
         }
 
         //Check trash
-        if($this->hasAttribute($this->removeByAttribute)){
-            $behaviors['trash']=[
-                'class'=>\sibds\behaviors\TrashBehavior::className(),
-                'trashAttribute'=>$this->removeByAttribute,
+        if ($this->hasAttribute($this->removeByAttribute)) {
+            $behaviors['trash'] = [
+                'class' => TrashBehavior::className(),
+                'trashAttribute' => $this->removeByAttribute,
             ];
         }
 
@@ -106,7 +105,7 @@ class ActiveRecord extends \yii\db\ActiveRecord
      */
     public function getCreateUser()
     {
-        if($this->hasAttribute($this->createdByAttribute)&&$this->hasAttribute($this->updatedByAttribute))
+        if ($this->hasAttribute($this->createdByAttribute) && $this->hasAttribute($this->updatedByAttribute))
             return $this->hasOne(User::className(), ['id' => $this->createdByAttribute]);
 
         return null;
@@ -118,7 +117,7 @@ class ActiveRecord extends \yii\db\ActiveRecord
      */
     public function getCreateUserName()
     {
-        if($this->hasAttribute($this->createdByAttribute)&&$this->hasAttribute($this->updatedByAttribute))
+        if ($this->hasAttribute($this->createdByAttribute) && $this->hasAttribute($this->updatedByAttribute))
             return $this->createUser ? $this->createUser->username : '- no user -';
 
         return null;
@@ -130,7 +129,7 @@ class ActiveRecord extends \yii\db\ActiveRecord
      */
     public function getUpdateUser()
     {
-        if($this->hasAttribute($this->createdByAttribute)&&$this->hasAttribute($this->updatedByAttribute))
+        if ($this->hasAttribute($this->createdByAttribute) && $this->hasAttribute($this->updatedByAttribute))
             return $this->hasOne(User::className(), ['id' => $this->updatedByAttribute]);
 
         return null;
@@ -142,29 +141,31 @@ class ActiveRecord extends \yii\db\ActiveRecord
      */
     public function getUpdateUserName()
     {
-        if($this->hasAttribute($this->createdByAttribute)&&$this->hasAttribute($this->updatedByAttribute))
+        if ($this->hasAttribute($this->createdByAttribute) && $this->hasAttribute($this->updatedByAttribute))
             return $this->createUser ? $this->updateUser->username : '- no user -';
 
         return null;
     }
 
-    public function beforeSave($insert){
-        if($insert){
-            if($this->hasAttribute('status'))
-                if(empty($this->status)||is_null($this->status))
+    public function beforeSave($insert)
+    {
+        if ($insert) {
+            if ($this->hasAttribute('status'))
+                if (empty($this->status) || is_null($this->status))
                     $this->status = self::STATUS_DEFAULT;
         }
 
         return parent::beforeSave($insert);
     }
 
-    public function beforeSave($insert){
-        if($insert){
-            if($this->hasAttribute('status'))
-                if(empty($this->status)||is_null($this->status))
-                    $this->status = self::STATUS_DEFAULT;
-        }
 
-        return parent::beforeSave($insert);
+    public function lock(){
+        $this->status = self::STATUS_LOCK;
+        $this->save();
+    }
+
+    public function unlock(){
+        $this->status = self::STATUS_DEFAULT;
+        $this->save();
     }
 }
