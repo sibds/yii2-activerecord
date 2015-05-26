@@ -8,3 +8,4 @@ Expanding ActiveRecord framework Yii2
 - [ ] The clone function
 - [x] Support for "garbage" for removing records
 - [x] Timestamp and blameable behaviors
+- [ ] UserDataBehavior

@@ -99,54 +99,6 @@ class ActiveRecord extends \yii\db\ActiveRecord
         return $behaviors;
     }
 
-    /**
-     * @getCreateUser
-     * @return null|\yii\db\ActiveQuery
-     */
-    public function getCreateUser()
-    {
-        if ($this->hasAttribute($this->createdByAttribute) && $this->hasAttribute($this->updatedByAttribute))
-            return $this->hasOne(User::className(), ['id' => $this->createdByAttribute]);
-
-        return null;
-    }
-
-    /**
-     * @getCreateUserName
-     * @return null|\yii\db\ActiveQuery
-     */
-    public function getCreateUserName()
-    {
-        if ($this->hasAttribute($this->createdByAttribute) && $this->hasAttribute($this->updatedByAttribute))
-            return $this->createUser ? $this->createUser->username : '- no user -';
-
-        return null;
-    }
-
-    /**
-     * @getUpdateUser
-     * @return null|\yii\db\ActiveQuery
-     */
-    public function getUpdateUser()
-    {
-        if ($this->hasAttribute($this->createdByAttribute) && $this->hasAttribute($this->updatedByAttribute))
-            return $this->hasOne(User::className(), ['id' => $this->updatedByAttribute]);
-
-        return null;
-    }
-
-    /**
-     * @getUpdateUserName
-     * @return null|\yii\db\ActiveQuery
-     */
-    public function getUpdateUserName()
-    {
-        if ($this->hasAttribute($this->createdByAttribute) && $this->hasAttribute($this->updatedByAttribute))
-            return $this->createUser ? $this->updateUser->username : '- no user -';
-
-        return null;
-    }
-
     public function beforeSave($insert)
     {
         if ($insert) {
