@@ -9,8 +9,8 @@
 namespace sibds\components;
 
 use Yii;
-use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
+use sibds\behaviors\UserDataBehavior;
 use sibds\behaviors\TrashBehavior;
 
 
@@ -21,8 +21,7 @@ class ActiveRecord extends \yii\db\ActiveRecord
 
     //Status state
     const STATUS_DEFAULT = 0;
-    const STATUS_LOCK = -1;
-    const STATUS_REMOVE = 1;
+    const STATUS_LOCK = 1;
 
     public static $BEFORE_QUERY = ['removed' => 0, 'status' => self::STATUS_DEFAULT];
 
@@ -75,7 +74,7 @@ class ActiveRecord extends \yii\db\ActiveRecord
         //Check blameable
         if ($this->hasAttribute($this->createdByAttribute) && $this->hasAttribute($this->updatedByAttribute))
             $behaviors['blameable'] = [
-                'class' => BlameableBehavior::className(),
+                'class' => UserDataBehavior::className(),
                 'createdByAttribute' => $this->createdByAttribute,
                 'updatedByAttribute' => $this->updatedByAttribute,
             ];
@@ -119,5 +118,17 @@ class ActiveRecord extends \yii\db\ActiveRecord
     public function unlock(){
         $this->status = self::STATUS_DEFAULT;
         $this->save();
+    }
+
+    public function duplicate(){
+        $this->isNewRecord=true;
+
+        foreach($this->primaryKey() as $key)
+            $this->$key = null;
+
+        if($this->save()){
+            return $this;
+        }
+        return null;
     }
 }

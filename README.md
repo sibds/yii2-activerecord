@@ -5,7 +5,7 @@ Expanding ActiveRecord framework Yii2
 
 - [ ] Documentation
 - [x] Recording status (lock/unlock)
-- [ ] The clone function
+- [x] The clone function `duplicate()`
 - [x] Support for "garbage" for removing records
 - [x] Timestamp and blameable behaviors
-- [ ] UserDataBehavior
+- [x] UserDataBehavior (extend blameable behavior)

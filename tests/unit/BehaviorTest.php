@@ -75,4 +75,34 @@ class BehaviorTest extends \yii\codeception\TestCase
 
         $this->assertTrue($countBefore==$countAfter+1);
     }
+
+    private function loadData(){
+        for($i=1;$i<=10;$i++){
+            if($i%2){
+                $this->loginUser(100);
+            }else{
+                $this->loginUser(101);
+            }
+            $post = new data\Post();
+            $post->content = 'Test #'.$i;
+            $post->save();
+        }
+    }
+
+    public function testDuplicate(){
+        $this->loadData();
+
+        $countBefore = data\Post::find()->count();
+        $post = data\Post::find()->one();
+
+        $oldId = $post->id;
+
+        $newpost = $post->duplicate();
+
+        $countAfter = data\Post::find()->count();
+
+        $this->assertTrue($oldId != $newpost->id);
+
+        $this->assertTrue($countBefore+1==$countAfter);
+    }
 } 

@@ -25,7 +25,8 @@
     },
     "autoload": {
         "psr-4": {
-            "sibds\\components\\": ""
+            "sibds\\components\\": "",
+            "sibds\\behaviors\\": ""
         }
     }
 }
