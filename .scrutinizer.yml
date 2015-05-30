@@ -11,5 +11,4 @@ tools:
     php_changetracking: true
     php_cs_fixer:
           config: { level: psr2 }
-    external_code_coverage:
-        timeout: 1800
+    external_code_coverage: true
