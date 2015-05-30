@@ -80,18 +80,10 @@ class ActiveRecord extends \yii\db\ActiveRecord
             ];
 
         //Check trash
-        if ($this->hasAttribute($this->removeByAttribute)) {
-            $behaviors['trash'] = [
-                'class' => \sibds\behaviors\TrashBehavior::className(),
-                'trashAttribute' => $this->removeByAttribute,
-            ];
-        }
-
-        //Check trash
-        if ($this->hasAttribute($this->removeByAttribute)) {
+        if ($this->hasAttribute($this->removedAttribute)) {
             $behaviors['trash'] = [
                 'class' => TrashBehavior::className(),
-                'trashAttribute' => $this->removeByAttribute,
+                'trashAttribute' => $this->removedAttribute,
             ];
         }
 
