@@ -49,7 +49,8 @@ class ActiveRecord extends \yii\db\ActiveRecord
      */
     public $updatedByAttribute = 'updated_by';
 
-    public $removeByAttribute = 'removed';
+
+    public $removedAttribute = 'removed';
 
 
     public function behaviors()
