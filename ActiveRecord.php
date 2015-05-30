@@ -16,12 +16,11 @@ use sibds\behaviors\TrashBehavior;
 
 class ActiveRecord extends \yii\db\ActiveRecord
 {
-    //use \sibds\traits\base\BeforeQueryTrait;
     use BeforeQueryTrait;
 
     //Status state
     const STATUS_DEFAULT = 0;
-    const STATUS_LOCK = 1;
+    const STATUS_LOCK = 1; //Blocking records
 
     public static $BEFORE_QUERY = ['removed' => 0, 'status' => self::STATUS_DEFAULT];
 
@@ -121,6 +120,10 @@ class ActiveRecord extends \yii\db\ActiveRecord
         $this->save();
     }
 
+    /**
+     * Duplicate entries in the table.
+     * @return $this|null
+     */
     public function duplicate(){
         $this->isNewRecord=true;
 
