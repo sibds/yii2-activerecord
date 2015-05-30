@@ -1,4 +1,7 @@
 # yii2-activerecord
+
+[![Build Status](https://travis-ci.org/sibds/yii2-activerecord.svg?branch=master)](https://travis-ci.org/sibds/yii2-activerecord)
+
 Expanding ActiveRecord framework Yii2
 
 ## Roadmap
