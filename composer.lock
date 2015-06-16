@@ -273,12 +273,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sibds/yii2-trash-behavior.git",
-                "reference": "2aaba02318feee8dd89501089e0107583d13a21e"
+                "reference": "4ad0fdbcaa3f99f5868d5e7f334ac3da8572e4b6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sibds/yii2-trash-behavior/zipball/2aaba02318feee8dd89501089e0107583d13a21e",
-                "reference": "2aaba02318feee8dd89501089e0107583d13a21e",
+                "url": "https://api.github.com/repos/sibds/yii2-trash-behavior/zipball/4ad0fdbcaa3f99f5868d5e7f334ac3da8572e4b6",
+                "reference": "4ad0fdbcaa3f99f5868d5e7f334ac3da8572e4b6",
                 "shasum": ""
             },
             "require": {
@@ -313,7 +313,7 @@
                 "trash",
                 "yii2"
             ],
-            "time": "2015-05-26 07:03:46"
+            "time": "2015-06-15 19:01:43"
         },
         {
             "name": "yiisoft/yii2",

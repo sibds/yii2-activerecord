@@ -11,8 +11,8 @@ install:
   - composer global require fxp/composer-asset-plugin:~1.0
   - composer install
 
-before_script:
-  - mysql -e 'create database yii2_translateable_test;'
+#before_script:
+#  - mysql -e 'create database yii2_translateable_test;'
 
 script:
   - "wget http://codeception.com/codecept.phar"

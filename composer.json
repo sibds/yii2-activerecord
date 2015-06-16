@@ -18,7 +18,7 @@
     "require": {
         "php": ">=5.4.0",
         "yiisoft/yii2": "*",
-        "sibds/yii2-trash-behavior": "dev-master"
+        "sibds/yii2-trash-behavior": "*"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "~2.0"
