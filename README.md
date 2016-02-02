@@ -7,7 +7,7 @@ Expanding ActiveRecord framework Yii2
 ## Roadmap
 
 - [ ] Documentation
-- [x] Recording status (lock/unlock)
+- [x] Recording lock/unlock
 - [x] The clone function `duplicate()`
 - [x] Support for "garbage" for removing records
 - [x] Timestamp and blameable behaviors

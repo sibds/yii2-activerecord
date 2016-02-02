@@ -19,10 +19,10 @@ class ActiveRecord extends \yii\db\ActiveRecord
     use BeforeQueryTrait;
 
     //Status state
-    const STATUS_DEFAULT = 0;
+    const STATUS_UNLOCK = 0;
     const STATUS_LOCK = 1; //Blocking records
 
-    public static $BEFORE_QUERY = ['removed' => 0, 'status' => self::STATUS_DEFAULT];
+    public static $BEFORE_QUERY = ['removed' => 0, 'locked' => self::STATUS_UNLOCK];
 
 
     // Dynamical fields for behaviors
@@ -48,6 +48,7 @@ class ActiveRecord extends \yii\db\ActiveRecord
      */
     public $updatedByAttribute = 'updated_by';
 
+    public $lockedAttribute = 'removed';
 
     public $removedAttribute = 'removed';
 
@@ -94,8 +95,8 @@ class ActiveRecord extends \yii\db\ActiveRecord
     {
         if ($insert) {
             if ($this->hasAttribute('status'))
-                if (empty($this->status) || is_null($this->status))
-                    $this->status = self::STATUS_DEFAULT;
+                if (empty($this->{$this->lockedAttribute}) || is_null($this->{$this->lockedAttribute}))
+                    $this->{$this->lockedAttribute} = self::STATUS_UNLOCK;
         }
 
         return parent::beforeSave($insert);
@@ -103,12 +104,12 @@ class ActiveRecord extends \yii\db\ActiveRecord
 
 
     public function lock(){
-        $this->status = self::STATUS_LOCK;
+        $this->{$this->lockedAttribute} = self::STATUS_LOCK;
         $this->save();
     }
 
     public function unlock(){
-        $this->status = self::STATUS_DEFAULT;
+        $this->{$this->lockedAttribute} = self::STATUS_UNLOCK;
         $this->save();
     }
 
