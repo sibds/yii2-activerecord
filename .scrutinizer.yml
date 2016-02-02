@@ -4,6 +4,8 @@ checks:
         duplication: true
 
 tools:
+    external_code_coverage:
+        timeout: 1800
     php_analyzer: true
     php_mess_detector: true
     php_sim: true
