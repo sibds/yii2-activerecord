@@ -33,7 +33,7 @@ class Post extends \sibds\components\ActiveRecord
     {
         return [
             [['content'], 'string'],
-            [['created_at', 'updated_at', 'created_by', 'updated_by', 'status', 'removed'], 'integer']
+            [['created_at', 'updated_at', 'created_by', 'updated_by', 'locked', 'removed'], 'integer']
         ];
     }
 
@@ -49,7 +49,7 @@ class Post extends \sibds\components\ActiveRecord
             'updated_at' => 'Updated At',
             'created_by' => 'Created By',
             'updated_by' => 'Updated By',
-            'status' => 'Status',
+            'locked' => 'Locked',
             'removed' => 'Deleted',
         ];
     }

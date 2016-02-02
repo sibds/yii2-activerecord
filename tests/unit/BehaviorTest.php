@@ -12,6 +12,11 @@ class BehaviorTest extends \yii\codeception\TestCase
 {
     public $appConfig = '@tests/unit/_config.php';
 
+    /**
+     * @var Connection test db connection
+     */
+    protected $dbConnection;
+
     public static function setUpBeforeClass()
     {
         if (!extension_loaded('pdo') || !extension_loaded('pdo_sqlite')) {
@@ -26,6 +31,28 @@ class BehaviorTest extends \yii\codeception\TestCase
     public function setUp()
     {
         $this->mockApplication(require(Yii::getAlias($this->appConfig)));
+        /*
+        $this->mockApplication(\yii\helpers\ArrayHelper::merge(
+            require(Yii::getAlias($this->appConfig)),[
+            'components' => [
+                'db' => [
+                    'class' => '\yii\db\Connection',
+                    'dsn' => 'sqlite::memory:',
+                ]
+            ]
+        ]));
+        $columns = [
+            'id' => 'pk',
+            'content' => 'text',
+            'created_at' => 'integer',
+            'updated_at' => 'integer',
+            'created_by' => 'integer',
+            'updated_by' => 'integer',
+            'locked' => 'integer',
+            'removed' => 'integer'
+        ];
+        Yii::$app->getDb()->createCommand()->createTable('post', $columns)->execute();
+        */
 
         if(Yii::$app->user->isGuest)
             $this->loginUser(100);
@@ -52,6 +79,8 @@ class BehaviorTest extends \yii\codeception\TestCase
      *  @depends testCreatePostByAdmin
      */
     public function testChangePostByDemo(){
+        $this->assertTrue(data\Post::find()->count()>0);
+
         $post = data\Post::find()->one();
 
         $this->loginUser(101);
@@ -89,6 +118,9 @@ class BehaviorTest extends \yii\codeception\TestCase
         }
     }
 
+    /**
+     *  @depends testDelete
+     */
     public function testDuplicate(){
         $this->loadData();
 

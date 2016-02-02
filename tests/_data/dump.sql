@@ -1,5 +1,3 @@
-PRAGMA foreign_keys=OFF;
-BEGIN TRANSACTION;
 CREATE TABLE "post" (
     "id" INTEGER PRIMARY KEY AUTOINCREMENT,
     "content" TEXT,
@@ -7,10 +5,7 @@ CREATE TABLE "post" (
     "updated_at" INTEGER,
     "created_by" INTEGER,
     "updated_by" INTEGER,
-    "status" INTEGER,
+    "locked" INTEGER,
     "removed" INTEGER
 );
-
-DELETE FROM sqlite_sequence;
-INSERT INTO "sqlite_sequence" VALUES('post',3);
-COMMIT;
+INSERT INTO "post" VALUES (1, 'test', 1454414533, 1454414533, 100, 100, 0, 0);

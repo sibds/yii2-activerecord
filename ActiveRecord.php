@@ -48,7 +48,7 @@ class ActiveRecord extends \yii\db\ActiveRecord
      */
     public $updatedByAttribute = 'updated_by';
 
-    public $lockedAttribute = 'removed';
+    public $lockedAttribute = 'locked';
 
     public $removedAttribute = 'removed';
 
@@ -94,7 +94,7 @@ class ActiveRecord extends \yii\db\ActiveRecord
     public function beforeSave($insert)
     {
         if ($insert) {
-            if ($this->hasAttribute('status'))
+            if ($this->hasAttribute($this->lockedAttribute))
                 if (empty($this->{$this->lockedAttribute}) || is_null($this->{$this->lockedAttribute}))
                     $this->{$this->lockedAttribute} = self::STATUS_UNLOCK;
         }

@@ -5,6 +5,7 @@
         "This file is @generated automatically"
     ],
     "hash": "d77585c61b7a9f15422e87c5f19c3f24",
+    "content-hash": "9ba5cf1366d0ab7b7a92d448312cc2d2",
     "packages": [
         {
             "name": "bower-asset/jquery",
@@ -132,16 +133,16 @@
         },
         {
             "name": "bower-asset/yii2-pjax",
-            "version": "v2.0.4",
+            "version": "v2.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/jquery-pjax.git",
-                "reference": "3f20897307cca046fca5323b318475ae9dac0ca0"
+                "reference": "6818718408086db6bdcf33649cecb86b6b4f9b67"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/jquery-pjax/zipball/3f20897307cca046fca5323b318475ae9dac0ca0",
-                "reference": "3f20897307cca046fca5323b318475ae9dac0ca0",
+                "url": "https://api.github.com/repos/yiisoft/jquery-pjax/zipball/6818718408086db6bdcf33649cecb86b6b4f9b67",
+                "reference": "6818718408086db6bdcf33649cecb86b6b4f9b67",
                 "shasum": ""
             },
             "require": {
@@ -273,12 +274,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sibds/yii2-trash-behavior.git",
-                "reference": "2aaba02318feee8dd89501089e0107583d13a21e"
+                "reference": "9a3b5733693162240ce1191dbffa367972c4485f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sibds/yii2-trash-behavior/zipball/2aaba02318feee8dd89501089e0107583d13a21e",
-                "reference": "2aaba02318feee8dd89501089e0107583d13a21e",
+                "url": "https://api.github.com/repos/sibds/yii2-trash-behavior/zipball/9a3b5733693162240ce1191dbffa367972c4485f",
+                "reference": "9a3b5733693162240ce1191dbffa367972c4485f",
                 "shasum": ""
             },
             "require": {
@@ -313,20 +314,20 @@
                 "trash",
                 "yii2"
             ],
-            "time": "2015-05-26 07:03:46"
+            "time": "2015-06-15 19:42:07"
         },
         {
             "name": "yiisoft/yii2",
-            "version": "2.0.4",
+            "version": "2.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "726867caee3f23aa7a6975c801e64b6021e14f86"
+                "reference": "f42b2eb80f61992438661b01d0d74c6738e2ff38"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/726867caee3f23aa7a6975c801e64b6021e14f86",
-                "reference": "726867caee3f23aa7a6975c801e64b6021e14f86",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/f42b2eb80f61992438661b01d0d74c6738e2ff38",
+                "reference": "f42b2eb80f61992438661b01d0d74c6738e2ff38",
                 "shasum": ""
             },
             "require": {
@@ -401,7 +402,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2015-05-10 20:09:47"
+            "time": "2015-08-05 22:00:30"
         },
         {
             "name": "yiisoft/yii2-composer",
