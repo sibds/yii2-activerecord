@@ -110,8 +110,9 @@ class ActiveRecord extends \yii\db\ActiveRecord
     public function duplicate() {
         $this->isNewRecord = true;
 
-        foreach ($this->primaryKey() as $key)
-            $this->$key = null;
+        foreach ($this->primaryKey() as $key) {
+                    $this->$key = null;
+        }
 
         if ($this->save()) {
             return $this;
