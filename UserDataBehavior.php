@@ -13,6 +13,14 @@ use yii\behaviors\BlameableBehavior;
 
 class UserDataBehavior extends BlameableBehavior {
 
+    public $userClass = null;
+
+    public function init()
+    {
+        if(is_null($this->userClass))
+            $this->userClass = \Yii::$app->user->className();
+    }
+
     /**
      * @getCreateUser
      * @return null|\yii\db\ActiveQuery
@@ -23,7 +31,7 @@ class UserDataBehavior extends BlameableBehavior {
         $owner = $this->owner;
 
         if ($owner->hasAttribute($this->createdByAttribute) && $owner->hasAttribute($this->updatedByAttribute))
-            return $owner->hasOne(User::className(), ['id' => $this->createdByAttribute]);
+            return $owner->hasOne($this->userClass, ['id' => $this->createdByAttribute]);
 
         return null;
     }
@@ -53,7 +61,7 @@ class UserDataBehavior extends BlameableBehavior {
         $owner = $this->owner;
 
         if ($owner->hasAttribute($this->createdByAttribute) && $owner->hasAttribute($this->updatedByAttribute))
-            return $this->hasOne(User::className(), ['id' => $this->updatedByAttribute]);
+            return $this->hasOne($this->userClass, ['id' => $this->updatedByAttribute]);
 
         return null;
     }

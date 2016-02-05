@@ -31,36 +31,13 @@ class BehaviorTest extends \yii\codeception\TestCase
     public function setUp()
     {
         $this->mockApplication(require(Yii::getAlias($this->appConfig)));
-        /*
-        $this->mockApplication(\yii\helpers\ArrayHelper::merge(
-            require(Yii::getAlias($this->appConfig)),[
-            'components' => [
-                'db' => [
-                    'class' => '\yii\db\Connection',
-                    'dsn' => 'sqlite::memory:',
-                ]
-            ]
-        ]));
-        $columns = [
-            'id' => 'pk',
-            'content' => 'text',
-            'created_at' => 'integer',
-            'updated_at' => 'integer',
-            'created_by' => 'integer',
-            'updated_by' => 'integer',
-            'locked' => 'integer',
-            'removed' => 'integer'
-        ];
-        Yii::$app->getDb()->createCommand()->createTable('post', $columns)->execute();
-        */
-
         if(Yii::$app->user->isGuest)
             $this->loginUser(100);
     }
 
     public function tearDown()
     {
-        //data\Post::deleteAll();
+        data\Post::deleteAll();
         parent::tearDown();
     }
 

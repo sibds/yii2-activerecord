@@ -76,8 +76,10 @@ class ActiveRecord extends \yii\db\ActiveRecord
         if ($this->hasAttribute($this->createdByAttribute) && $this->hasAttribute($this->updatedByAttribute))
             $behaviors['blameable'] = [
                 'class' => UserDataBehavior::className(),
-                'createdByAttribute' => $this->createdByAttribute,
-                'updatedByAttribute' => $this->updatedByAttribute,
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => [$this->createdByAttribute, $this->updatedByAttribute],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => $this->updatedByAttribute,
+                ],
             ];
 
         //Check trash
@@ -88,29 +90,15 @@ class ActiveRecord extends \yii\db\ActiveRecord
             ];
         }
 
-        return $behaviors;
-    }
-
-    public function beforeSave($insert)
-    {
-        if ($insert) {
-            if ($this->hasAttribute($this->lockedAttribute))
-                if (empty($this->{$this->lockedAttribute}) || is_null($this->{$this->lockedAttribute}))
-                    $this->{$this->lockedAttribute} = self::STATUS_UNLOCK;
+        //Check locked
+        if ($this->hasAttribute($this->lockedAttribute)) {
+            $behaviors['locked'] = [
+                'class' => LockedBehavior::className(),
+                'lockedAttribute' => $this->lockedAttribute,
+            ];
         }
 
-        return parent::beforeSave($insert);
-    }
-
-
-    public function lock(){
-        $this->{$this->lockedAttribute} = self::STATUS_LOCK;
-        $this->save();
-    }
-
-    public function unlock(){
-        $this->{$this->lockedAttribute} = self::STATUS_UNLOCK;
-        $this->save();
+        return $behaviors;
     }
 
     /**
