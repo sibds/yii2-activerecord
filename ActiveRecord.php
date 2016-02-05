@@ -62,8 +62,8 @@ class ActiveRecord extends \yii\db\ActiveRecord
         // If table not have fields, then behavior not use
         $behaviors = [];
         //Check timestamp
-        if ($this->hasAttribute($this->createdAtAttribute) && $this->hasAttribute($this->updatedAtAttribute))
-            $behaviors['timestamp'] = [
+        if ($this->hasAttribute($this->createdAtAttribute) && $this->hasAttribute($this->updatedAtAttribute)) {
+                    $behaviors['timestamp'] = [
                 'class' => TimestampBehavior::className(),
                 'attributes' => [
                     ActiveRecord::EVENT_BEFORE_INSERT => [$this->createdAtAttribute, $this->updatedAtAttribute],
@@ -71,16 +71,18 @@ class ActiveRecord extends \yii\db\ActiveRecord
                 ],
 
             ];
+        }
 
         //Check blameable
-        if ($this->hasAttribute($this->createdByAttribute) && $this->hasAttribute($this->updatedByAttribute))
-            $behaviors['blameable'] = [
+        if ($this->hasAttribute($this->createdByAttribute) && $this->hasAttribute($this->updatedByAttribute)) {
+                    $behaviors['blameable'] = [
                 'class' => UserDataBehavior::className(),
                 'attributes' => [
                     ActiveRecord::EVENT_BEFORE_INSERT => [$this->createdByAttribute, $this->updatedByAttribute],
                     ActiveRecord::EVENT_BEFORE_UPDATE => $this->updatedByAttribute,
                 ],
             ];
+        }
 
         //Check trash
         if ($this->hasAttribute($this->removedAttribute)) {
@@ -105,13 +107,13 @@ class ActiveRecord extends \yii\db\ActiveRecord
      * Duplicate entries in the table.
      * @return $this|null
      */
-    public function duplicate(){
-        $this->isNewRecord=true;
+    public function duplicate() {
+        $this->isNewRecord = true;
 
-        foreach($this->primaryKey() as $key)
+        foreach ($this->primaryKey() as $key)
             $this->$key = null;
 
-        if($this->save()){
+        if ($this->save()) {
             return $this;
         }
         return null;
