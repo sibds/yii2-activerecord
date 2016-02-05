@@ -29,8 +29,9 @@ class LockedBehavior extends Behavior
     {
         $owner = $this->owner;
         if ($owner->hasAttribute($this->lockedAttribute)) {
-                    if (empty($owner->{$this->lockedAttribute}) || is_null($owner->{$this->lockedAttribute}))
-                $owner->{$this->lockedAttribute} = $this->valueUnlock;
+                    if (empty($owner->{$this->lockedAttribute}) || is_null($owner->{$this->lockedAttribute})) {
+                                    $owner->{$this->lockedAttribute} = $this->valueUnlock;
+                    }
         }
     }
 

@@ -1,10 +1,10 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: vadim
- * Date: 26.05.15
- * Time: 15:12
- */
+     * Created by PhpStorm.
+     * User: vadim
+     * Date: 26.05.15
+     * Time: 15:12
+     */
 
 namespace sibds\behaviors;
 
@@ -17,8 +17,9 @@ class UserDataBehavior extends BlameableBehavior {
 
     public function init()
     {
-        if (is_null($this->userClass))
-            $this->userClass = \Yii::$app->user->className();
+        if (is_null($this->userClass)) {
+                    $this->userClass = \Yii::$app->user->className();
+        }
     }
 
     /**
