@@ -17,7 +17,7 @@ class UserDataBehavior extends BlameableBehavior {
 
     public function init()
     {
-        if(is_null($this->userClass))
+        if (is_null($this->userClass))
             $this->userClass = \Yii::$app->user->className();
     }
 
@@ -30,8 +30,9 @@ class UserDataBehavior extends BlameableBehavior {
         /* @var $owner BaseActiveRecord */
         $owner = $this->owner;
 
-        if ($owner->hasAttribute($this->createdByAttribute) && $owner->hasAttribute($this->updatedByAttribute))
-            return $owner->hasOne($this->userClass, ['id' => $this->createdByAttribute]);
+        if ($owner->hasAttribute($this->createdByAttribute) && $owner->hasAttribute($this->updatedByAttribute)) {
+                    return $owner->hasOne($this->userClass, ['id' => $this->createdByAttribute]);
+        }
 
         return null;
     }
@@ -45,8 +46,9 @@ class UserDataBehavior extends BlameableBehavior {
         /* @var $owner BaseActiveRecord */
         $owner = $this->owner;
 
-        if ($owner->hasAttribute($this->createdByAttribute) && $owner->hasAttribute($this->updatedByAttribute))
-            return $this->createUser ? $this->createUser->username : '- no user -';
+        if ($owner->hasAttribute($this->createdByAttribute) && $owner->hasAttribute($this->updatedByAttribute)) {
+                    return $this->createUser ? $this->createUser->username : '- no user -';
+        }
 
         return null;
     }
@@ -60,8 +62,9 @@ class UserDataBehavior extends BlameableBehavior {
         /* @var $owner BaseActiveRecord */
         $owner = $this->owner;
 
-        if ($owner->hasAttribute($this->createdByAttribute) && $owner->hasAttribute($this->updatedByAttribute))
-            return $this->hasOne($this->userClass, ['id' => $this->updatedByAttribute]);
+        if ($owner->hasAttribute($this->createdByAttribute) && $owner->hasAttribute($this->updatedByAttribute)) {
+                    return $this->hasOne($this->userClass, ['id' => $this->updatedByAttribute]);
+        }
 
         return null;
     }
@@ -75,8 +78,9 @@ class UserDataBehavior extends BlameableBehavior {
         /* @var $owner BaseActiveRecord */
         $owner = $this->owner;
 
-        if ($owner->hasAttribute($this->createdByAttribute) && $owner->hasAttribute($this->updatedByAttribute))
-            return $this->createUser ? $this->updateUser->username : '- no user -';
+        if ($owner->hasAttribute($this->createdByAttribute) && $owner->hasAttribute($this->updatedByAttribute)) {
+                    return $this->createUser ? $this->updateUser->username : '- no user -';
+        }
 
         return null;
     }

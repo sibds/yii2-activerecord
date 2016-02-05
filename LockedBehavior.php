@@ -1,10 +1,10 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: vadim
- * Date: 05.02.16
- * Time: 12:57
- */
+     * Created by PhpStorm.
+     * User: vadim
+     * Date: 05.02.16
+     * Time: 12:57
+     */
 
 namespace sibds\components;
 
@@ -25,12 +25,13 @@ class LockedBehavior extends Behavior
         ];
     }
 
-    public function getDefaultValue( $event )
+    public function getDefaultValue($event)
     {
         $owner = $this->owner;
-        if ($owner->hasAttribute($this->lockedAttribute))
-            if (empty($owner->{$this->lockedAttribute}) || is_null($owner->{$this->lockedAttribute}))
+        if ($owner->hasAttribute($this->lockedAttribute)) {
+                    if (empty($owner->{$this->lockedAttribute}) || is_null($owner->{$this->lockedAttribute}))
                 $owner->{$this->lockedAttribute} = $this->valueUnlock;
+        }
     }
 
     public function lock()
