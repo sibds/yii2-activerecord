@@ -102,7 +102,7 @@ class ActiveRecord extends \yii\db\ActiveRecord
         
         if($this->hasAttribute('lft')&&$this->hasAttribute('rgt')&&$this->hasAttribute('depth')){
             $behaviors['tree'] = ArrayHelper::merge([
-                'class' => NestedSetsBehavior::className(),
+                'class' => \creocoder\nestedsets\NestedSetsBehavior::className(),
                 'leftAttribute' => 'lft',
                 'rightAttribute' => 'rgt',
                 'depthAttribute' => 'depth',
