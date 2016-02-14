@@ -99,6 +99,15 @@ class ActiveRecord extends \yii\db\ActiveRecord
                 'lockedAttribute' => $this->lockedAttribute,
             ];
         }
+        
+        if($this->hasAttribute('lft')&&$this->hasAttribute('rgt')&&$this->hasAttribute('depth')){
+            $behaviors['tree'] = ArrayHelper::merge([
+                'class' => NestedSetsBehavior::className(),
+                'leftAttribute' => 'lft',
+                'rightAttribute' => 'rgt',
+                'depthAttribute' => 'depth',
+            ], ($this->hasAttribute('tree')?['treeAttribute' => 'tree']:[]));
+        }
 
         return $behaviors;
     }
