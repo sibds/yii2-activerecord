@@ -15,6 +15,7 @@ Expanding ActiveRecord framework Yii2
 - [x] Support for "garbage"(soft delete) for removing records
 - [x] Timestamp and blameable behaviors
 - [x] UserDataBehavior (extend blameable behavior)
+- [ ] Support NestedSetBehavior(creocoder/yii2-nested-sets)
 
 ## Installation
 
