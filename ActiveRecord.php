@@ -23,7 +23,7 @@ class ActiveRecord extends \yii\db\ActiveRecord
     const STATUS_UNLOCK = 0;
     const STATUS_LOCK = 1; //Blocking records
 
-    public static $BEFORE_QUERY = ['removed' => 0, 'locked' => self::STATUS_UNLOCK];
+    public static $BEFORE_QUERY = ['locked' => self::STATUS_UNLOCK];
 
 
     // Dynamical fields for behaviors
