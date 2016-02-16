@@ -15,6 +15,6 @@ trait BeforeQueryTrait
                 $condition = array_merge($condition, $property->getValue($obj));
             }
         }
-        return parent::find()->andFilterWhere($condition);
+        return  (new \sibds\behaviors\TrashQuery($obj))->findRemoved()->andFilterWhere($condition);
     }
 }
