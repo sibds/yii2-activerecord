@@ -101,7 +101,7 @@ class ActiveRecord extends \yii\db\ActiveRecord
             ];
         }
         
-        if($this->hasAttribute('lft')&&$this->hasAttribute('rgt')&&$this->hasAttribute('depth')){
+        if($this->isNestedSet()){
             $behaviors['tree'] = ArrayHelper::merge([
                 'class' => \creocoder\nestedsets\NestedSetsBehavior::className(),
                 'leftAttribute' => 'lft',
@@ -111,6 +111,10 @@ class ActiveRecord extends \yii\db\ActiveRecord
         }
 
         return $behaviors;
+    }
+
+    public function isNestedSet(){
+        return $this->hasAttribute('lft')&&$this->hasAttribute('rgt')&&$this->hasAttribute('depth');
     }
 
     /**
