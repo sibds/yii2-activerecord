@@ -7,6 +7,9 @@ trait BeforeQueryTrait
 
     public static function find()
     {
+        /**
+         * @var $obj ActiveRecord
+         */
         $obj = new static;
         $class = new \ReflectionClass($obj);
         $condition = [];
@@ -15,6 +18,9 @@ trait BeforeQueryTrait
                 $condition = array_merge($condition, $property->getValue($obj));
             }
         }
-        return  (new \sibds\behaviors\TrashQuery($obj))->findRemoved()->andFilterWhere($condition);
+        if($obj->hasAttribute($obj->removedAttribute))
+            return  (new \sibds\behaviors\TrashQuery($obj))->findRemoved()->andFilterWhere($condition);
+        else
+            return parent::find()->andFilterWhere($condition);
     }
 }
