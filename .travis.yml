@@ -15,8 +15,8 @@ matrix:
 
 install:
   - composer self-update
-  - composer global require fxp/composer-asset-plugin:~1.1
-  - composer install -o
+  - composer global require fxp/composer-asset-plugin:~1.1.1
+  - composer install
 
 before_script:
   - mysql -e 'create database yii2_translateable_test;'
