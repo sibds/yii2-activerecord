@@ -133,4 +133,18 @@ class ActiveRecord extends \yii\db\ActiveRecord
         }
         return null;
     }
+    
+    
+    /**
+     * @author Vitaly Voskobovich <vitaly@voskobovich.com>
+     */ 
+    public static function listAll($keyField = 'id', $valueField = 'name', $asArray = true)
+    {
+        $query = static::find();
+        if ($asArray) {
+            $query->select([$keyField, $valueField])->asArray();
+        }
+
+        return ArrayHelper::map($query->all(), $keyField, $valueField);
+    }
 }
