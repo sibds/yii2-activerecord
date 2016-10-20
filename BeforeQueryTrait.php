@@ -15,7 +15,12 @@ trait BeforeQueryTrait
         $condition = [];
         foreach ($class->getProperties(\ReflectionProperty::IS_STATIC) as $property) {
             if (strpos($property->getName(), 'BEFORE_QUERY') !== false && is_array($property->getValue($obj))) {
-                $condition = array_merge($condition, $property->getValue($obj));
+                $params = $property->getValue($obj);
+                foreach($params as $key => $value){
+                    $params[$obj::tableName().'.'.$key] = $value;
+                    unset($params[$key]);
+                }
+                $condition = array_merge($condition, $params);
             }
         }
 
