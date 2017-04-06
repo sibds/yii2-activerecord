@@ -13,7 +13,7 @@ use yii\behaviors\TimestampBehavior;
 use sibds\behaviors\UserDataBehavior;
 use sibds\behaviors\TrashBehavior;
 use yii\helpers\ArrayHelper;
-
+use yii\db\Expression;
 
 class ActiveRecord extends \yii\db\ActiveRecord
 {
