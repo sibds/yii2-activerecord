@@ -70,7 +70,16 @@ class ActiveRecord extends \yii\db\ActiveRecord
                     ActiveRecord::EVENT_BEFORE_INSERT => [$this->createdAtAttribute, $this->updatedAtAttribute],
                     ActiveRecord::EVENT_BEFORE_UPDATE => $this->updatedAtAttribute,
                 ],
-                'value' => new Expression('NOW()'), //TODO: need to change for different DB
+                'value' => function(){                    
+                    switch ($this->db->driverName) {                        
+                        case 'mysql':
+                            return new Expression('NOW()');
+                            break;
+                        default:
+                            return time();
+                            break;
+                    }                                        
+                }, //TODO: need to change for different DB
             ];
         }
 

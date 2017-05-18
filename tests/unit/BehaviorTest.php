@@ -37,7 +37,7 @@ class BehaviorTest extends \yii\codeception\TestCase
 
     public function tearDown()
     {
-        data\Post::deleteAll();
+        //data\Post::deleteAll();
         parent::tearDown();
     }
 
@@ -46,8 +46,9 @@ class BehaviorTest extends \yii\codeception\TestCase
         $post = new data\Post();
 
         //add test data
+        //$this->loginUser(100);
         $post->content = "test content";
-        $post->save();
+        $post->save();        
 
         $this->assertTrue($post->created_by==100&&$post->updated_by==100);
     }
@@ -55,7 +56,7 @@ class BehaviorTest extends \yii\codeception\TestCase
     /**
      *  @depends testCreatePostByAdmin
      */
-    public function testChangePostByDemo(){
+    public function testChangePostByDemo(){        
         $this->assertTrue(data\Post::find()->count()>0);
 
         $post = data\Post::find()->one();
