@@ -141,14 +141,10 @@ class ActiveRecord extends \yii\db\ActiveRecord
     public static function listAll($keyField = 'id', $valueField = 'name', $asArray = true)
     {
         $query = static::find();        
-        if ($asArray&&!self::is_closure($valueField)) {
+        if ($asArray) {
             $query->select([$keyField, $valueField])->asArray();
         }
 
         return ArrayHelper::map($query->all(), $keyField, $valueField);
-    }
-
-    public static function is_closure($t) {
-        return is_object($t) && ($t instanceof Closure);
     }
 }
