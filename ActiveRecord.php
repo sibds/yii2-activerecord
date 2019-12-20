@@ -31,23 +31,23 @@ class ActiveRecord extends \yii\db\ActiveRecord
      * @var string the attribute that will receive timestamp value
      * Set this property to false if you do not want to record the creation time.
      */
-    public $createdAtAttribute = 'created_at';
+    public $createdAtAttribute = 'create_at';
     /**
      * @var string the attribute that will receive timestamp value.
      * Set this property to false if you do not want to record the update time.
      */
-    public $updatedAtAttribute = 'updated_at';
+    public $updatedAtAttribute = 'update_at';
 
     /**
      * @var string the attribute that will receive current user ID value
      * Set this property to false if you do not want to record the creator ID.
      */
-    public $createdByAttribute = 'created_by';
+    public $createdByAttribute = 'create_by';
     /**
      * @var string the attribute that will receive current user ID value
      * Set this property to false if you do not want to record the updater ID.
      */
-    public $updatedByAttribute = 'updated_by';
+    public $updatedByAttribute = 'update_by';
 
     public $lockedAttribute = 'locked';
 
