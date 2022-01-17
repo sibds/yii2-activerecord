@@ -75,14 +75,16 @@ class ActiveRecord extends \yii\db\ActiveRecord
         }
 
         //Check blameable
-        if ($this->hasAttribute($this->createdByAttribute) && $this->hasAttribute($this->updatedByAttribute)) {
-                    $behaviors['blameable'] = [
-                'class' => UserDataBehavior::className(),
-                'attributes' => [
-                    ActiveRecord::EVENT_BEFORE_INSERT => [$this->createdByAttribute, $this->updatedByAttribute],
-                    ActiveRecord::EVENT_BEFORE_UPDATE => $this->updatedByAttribute,
-                ],
-            ];
+        if(!Yii::$app instanceof \yii\console\Application){
+            if ($this->hasAttribute($this->createdByAttribute) && $this->hasAttribute($this->updatedByAttribute)) {
+                $behaviors['blameable'] = [
+                    'class' => UserDataBehavior::className(),
+                    'attributes' => [
+                        ActiveRecord::EVENT_BEFORE_INSERT => [$this->createdByAttribute, $this->updatedByAttribute],
+                        ActiveRecord::EVENT_BEFORE_UPDATE => $this->updatedByAttribute,
+                    ],
+                ];
+            }
         }
 
         //Check trash
